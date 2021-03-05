@@ -1,0 +1,5 @@
+# JetBrains
+.idea/
+
+# python
+__pycache__/
