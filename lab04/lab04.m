@@ -23,8 +23,8 @@ function lab04
 	x2 = x0 + n2;
 
 	% Фильтрация
-	G = gaussian_filter(4, 20, 'low');
-	B = butterworth_filter(6, 20, 'low');
+	G = gaussian_filter_low(4, 20);
+	B = butterworth_filter_low(6, 20);
 
 	graph_figure(1, t, x0, x1, x2, 'Исходные сигналы')
 	graph_figure(2, t, x0, filtfilt(G, 1, x1), filtfilt(G, 1, x2), 'Фильтр Гаусса')
@@ -54,26 +54,14 @@ function y = impulse_noise(size, N, mult)
 	end
 end
 
-function y = butterworth_filter(D, size, type)
+function y = butterworth_filter_low(D, size)
 	x = linspace(-size / 2, size / 2, size);
-	if (strcmp(type, 'low'))
-		y = 1 ./ (1 + (x ./ D).^4);
-	elseif (strcmp(type, 'high'))
-		y = 1 ./ (1 + (D ./ x).^4);
-	else
-		y = x * sum(x);
-	end
+	y = 1 ./ (1 + (x ./ D).^4);
 	y = y / sum(y);
 end
 
-function y = gaussian_filter(sigma, size, type)
+function y = gaussian_filter_low(sigma, size)
 	x = linspace(-size / 2, size / 2, size);
-	if (strcmp(type, 'low'))
-		y = exp(-x.^2 / (2 * sigma^2));
-	elseif (strcmp(type, 'high'))
-		y = 1 - exp(-x.^2 / (2 * sigma^2));
-	else
-		y = x * sum(x);
-	end
+	y = exp(-x.^2 / (2 * sigma^2));
 	y = y / sum(y);
 end
